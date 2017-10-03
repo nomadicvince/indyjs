@@ -1,0 +1,373 @@
+ <!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>PBR Materials</title>
+        <!-- Babylon.js -->
+        <script src="js/babylon3_master.js"></script>
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #content {
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 60px;
+              position: absolute;
+              background-color: rgba(255, 255, 255, 0.3);
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+        </style>
+    </head>
+<body>
+
+      <canvas id="renderCanvas"></canvas>
+      <script>
+        var canvas = document.getElementById("renderCanvas");
+        var engine = new BABYLON.Engine(canvas, true);
+
+        var createScene = function () {
+
+            // This creates a basic Babylon Scene object (non-mesh)
+            var scene = new BABYLON.Scene(engine);
+            scene.clearColor = new BABYLON.Color3(0.0, 0.0, 0.0);
+            scene.imageProcessingConfiguration.contrast = 2.6;
+            scene.imageProcessingConfiguration.exposure = 1.6;
+            scene.imageProcessingConfiguration.toneMappingEnabled = true;
+
+            // This creates and positions a free camera (non-mesh)
+            var camera = new BABYLON.ArcRotateCamera("Camera", 1, 0.8, 10, BABYLON.Vector3.Zero(), scene);
+            camera.attachControl(canvas, true);
+            camera.upperBetaLimit = Math.PI / 2;
+          	camera.lowerRadiusLimit = 1;
+
+            //Environment HDRI
+            var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+            var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+            skyboxMaterial.backFaceCulling = false;
+            skyboxMaterial.disableLighting = true;
+            skybox.infiniteDistance = true;
+            skyboxMaterial.reflectionTexture = new BABYLON.HDRCubeTexture("sky/sunset.hdr", scene, 512);
+            skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            skybox.material = skyboxMaterial;
+
+            //PBR Materials and textures
+            var hdrTexture = new BABYLON.HDRCubeTexture("sky/sunset.hdr", scene, 512);
+
+            // Our built-in 'sphere' shape. Params: name, subdivs, size, scene
+            var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
+            var sphere2 = BABYLON.Mesh.CreateSphere("sphere2", 16, 2, scene);
+            var sphere3 = BABYLON.Mesh.CreateSphere("sphere3", 16, 2, scene);
+            var sphere4 = BABYLON.Mesh.CreateSphere("sphere4", 16, 2, scene);
+            var sphere5 = BABYLON.Mesh.CreateSphere("sphere5", 16, 2, scene);
+            var sphere6 = BABYLON.Mesh.CreateSphere("sphere6", 16, 2, scene);
+            var sphere7 = BABYLON.Mesh.CreateSphere("sphere7", 16, 2, scene);
+            var sphere8 = BABYLON.Mesh.CreateSphere("sphere8", 16, 2, scene);
+            var sphere9 = BABYLON.Mesh.CreateSphere("sphere9", 16, 2, scene);
+
+            // Sphere positions
+            sphere.position.y = 1; //Metal
+            sphere2.position = new BABYLON.Vector3(3, 1, 0); //Plastic
+            sphere3.position = new BABYLON.Vector3(-3, 1, 0); //Emission
+            sphere4.position = new BABYLON.Vector3(0, 1, -3); //Bubble
+            sphere5.position = new BABYLON.Vector3(-3, 1, -3); //Frosted Metal
+            sphere6.position = new BABYLON.Vector3(-3, 1, 3); //Cloth
+            sphere7.position = new BABYLON.Vector3(0, 1, 3); //Glass
+            sphere8.position = new BABYLON.Vector3(3, 1, 3); //Gold
+            sphere9.position = new BABYLON.Vector3(3, 1, -3); //Polished Wood
+
+            //Sphere Materials and textures
+
+            //sphere1 - Metal
+            var metal = new BABYLON.PBRMetallicRoughnessMaterial("metal", scene);
+            sphere.material = metal;
+            metal.baseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+            metal.metallic = 1.0; // set to 1 to only use it from the metallicRoughnessTexture
+            metal.roughness = 0.0; // set to 1 to only use it from the metallicRoughnessTexture
+            metal.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("sky/sunset.hdr", scene);
+
+            //sphere2 - Glass
+            var plastic = new BABYLON.PBRMaterial("plastic", scene);
+            sphere2.material = plastic;
+            plastic.reflectionTexture = hdrTexture;
+            plastic.microSurface = 0.96;
+            plastic.albedoColor = new BABYLON.Color3(0.600, 0.24, 1);
+            plastic.reflectivityColor = new BABYLON.Color3(0.03, 0.03, 0.03);
+            plastic.cameraExposure = 0.66;
+            plastic.cameraContrast = 1.96;
+
+            //sphere3
+            var emission = new BABYLON.PBRMaterial("emissive", scene);
+            emission.emissiveColor = new BABYLON.Color3(1, 0.7, 0);
+            emission.reflectionTexture = hdrTexture;
+            emission.reflectivityColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+            emission.microSurface = .3;
+            emission.alpha = 0.9;
+            emission.directIntensity = 1;
+            emission.environmentIntensity = 1;
+            emission.cameraExposure = 0.46;
+            emission.cameraContrast = 1.46;
+            sphere3.material = emission;
+
+            //sphere4
+            var globe = new BABYLON.PBRMaterial("globe", scene);
+            globe.albedoColor = new BABYLON.Color3(1, 0.0, 0.0);
+            globe.reflectionTexture = hdrTexture;
+            globe.reflectivityColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+            globe.microSurface = 1;
+            globe.alpha = .4;
+            globe.directIntensity = 1;
+            globe.environmentIntensity = 1;
+            globe.cameraExposure = 0.76;
+            globe.cameraContrast = 3;
+            sphere4.material = globe;
+
+            //sphere5
+            var frostedMetal = new BABYLON.PBRMetallicRoughnessMaterial("Frosted", scene);
+            sphere5.material = frostedMetal;
+            frostedMetal.baseColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+            frostedMetal.metallic = 1.0; // set to 1 to only use it from the metallicRoughnessTexture
+            frostedMetal.roughness = 0.6; // set to 1 to only use it from the metallicRoughnessTexture
+            frostedMetal.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("sky/sunset.hdr", scene);
+
+            //sphere6
+            var cloth= new BABYLON.PBRMaterial("fabric", scene);
+            cloth.reflectionTexture = hdrTexture;
+            cloth.albedoTexture = new BABYLON.Texture("textures/fabric.png", scene);
+            cloth.bumpTexture = new BABYLON.Texture("textures/fabricNRM.png", scene);
+            cloth.reflectivityColor = new BABYLON.Color3(0.045, 0.045, 0.045);
+            cloth.useMicroSurfaceFromReflectivityMapAlpha = true;
+            cloth.microSurface = 0.2;
+            cloth.cameraExposure = 0.66;
+            cloth.cameraContrast = 1.96;
+            sphere6.material = cloth;
+
+            //sphere7
+            var glass = new BABYLON.PBRMaterial("glass", scene);
+            glass.refractionTexture = hdrTexture;
+            glass.reflectionTexture = hdrTexture;
+            glass.linkRefractionWithTransparency = true;
+            glass.indexOfRefraction = 0.52;
+            glass.alpha = 0;
+            glass.microSurface = 1;
+            glass.reflectivityColor = new BABYLON.Color3(0.3, 0.3, 0.3);
+            glass.albedoColor = new BABYLON.Color3(0.85, 0.85, 0.85);
+            glass.environmentIntensity = 0.7;
+            glass.cameraExposure = 0.66;
+            glass.cameraContrast = 1.96;
+            sphere7.material = glass;
+
+            //sphere8
+            var rock= new BABYLON.PBRMaterial("rock", scene);
+            rock.reflectionTexture = hdrTexture;
+            rock.albedoTexture = new BABYLON.Texture("textures/gold.png", scene);
+            rock.bumpTexture = new BABYLON.Texture("textures/rockNRM.png", scene);
+            rock.reflectivityColor = new BABYLON.Color3(0.7, 0.7, 0.7);
+            rock.useMicroSurfaceFromReflectivityMapAlpha = true;
+            rock.cameraExposure = 0.66;
+            rock.cameraContrast = 1.96;
+            sphere8.material = rock;
+
+            //sphere9
+            var wood = new BABYLON.PBRMaterial("wood", scene);
+            wood.reflectionTexture = hdrTexture;
+            wood.albedoTexture = new BABYLON.Texture("textures/wood_albedo.png", scene);
+            wood.bumpTexture = new BABYLON.Texture("textures/woodNRM.png", scene);
+            wood.reflectivityTexture = new BABYLON.Texture("textures/wood_scratches.png", scene);
+            wood.reflectivityColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+            wood.useMicroSurfaceFromReflectivityMapAlpha = true;
+            wood.cameraExposure = 0.66;
+            wood.cameraContrast = 1.96;
+            sphere9.material = wood;
+
+            //GUI assets
+
+            //Metal Plane
+            var plane = BABYLON.Mesh.CreatePlane("plane", 2, scene);
+            plane.position.y = 2;
+            plane.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane);
+            var panel = new BABYLON.GUI.StackPanel();
+            panel.top = "-190px";
+            advancedTexture.addControl(panel);
+
+            var textblock = new BABYLON.GUI.TextBlock();
+            textblock.height = "170px";
+            textblock.fontSize = 210;
+            textblock.text = "Metal";
+            panel.addControl(textblock);
+
+            //Plastic Plane
+            var plane2 = BABYLON.Mesh.CreatePlane("plane2", 2, scene);
+            plane2.position = new BABYLON.Vector3(3, 2, 0);
+            plane2.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane2);
+            var panel2 = new BABYLON.GUI.StackPanel();
+            panel2.top = "-190px";
+            advancedTexture.addControl(panel2);
+
+            var textblock2 = new BABYLON.GUI.TextBlock();
+            textblock2.height = "170px";
+            textblock2.fontSize = 210;
+            textblock2.text = "Plastic";
+            panel2.addControl(textblock2);
+
+            //Emission Plane
+            var plane3 = BABYLON.Mesh.CreatePlane("plane3", 2, scene);
+            plane3.position = new BABYLON.Vector3(-3, 2, 0);
+            plane3.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane3);
+            var panel3 = new BABYLON.GUI.StackPanel();
+            panel3.top = "-190px";
+            advancedTexture.addControl(panel3);
+
+            var textblock3 = new BABYLON.GUI.TextBlock();
+            textblock3.height = "170px";
+            textblock3.fontSize = 210;
+            textblock3.text = "Emission";
+            panel3.addControl(textblock3);
+
+            //Bubble Plane
+            var plane4 = BABYLON.Mesh.CreatePlane("plane4", 2, scene);
+            plane4.position = new BABYLON.Vector3(0, 2, -3);
+            plane4.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane4);
+            var panel4 = new BABYLON.GUI.StackPanel();
+            panel4.top = "-190px";
+            advancedTexture.addControl(panel4);
+
+            var textblock4 = new BABYLON.GUI.TextBlock();
+            textblock4.height = "170px";
+            textblock4.fontSize = 210;
+            textblock4.text = "Bubble";
+            panel4.addControl(textblock4);
+
+            //Bubble Plane
+            var plane5 = BABYLON.Mesh.CreatePlane("plane5", 2, scene);
+            plane5.position = new BABYLON.Vector3(-3, 2, -3);
+            plane5.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane5);
+            var panel5 = new BABYLON.GUI.StackPanel();
+            panel5.top = "-190px";
+            advancedTexture.addControl(panel5);
+
+            var textblock5 = new BABYLON.GUI.TextBlock();
+            textblock5.height = "170px";
+            textblock5.fontSize = 170;
+            textblock5.text = "Frosted Metal";
+            panel5.addControl(textblock5);
+
+            //Cloth Plane
+            var plane6 = BABYLON.Mesh.CreatePlane("plane6", 2, scene);
+            plane6.position = new BABYLON.Vector3(-3, 2, 3);
+            plane6.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane6);
+            var panel6 = new BABYLON.GUI.StackPanel();
+            panel6.top = "-190px";
+            advancedTexture.addControl(panel6);
+
+            var textblock6 = new BABYLON.GUI.TextBlock();
+            textblock6.height = "170px";
+            textblock6.fontSize = 210;
+            textblock6.text = "Cloth";
+            panel6.addControl(textblock6);
+
+            //Glass Plane
+            var plane7 = BABYLON.Mesh.CreatePlane("plane7", 2, scene);
+            plane7.position = new BABYLON.Vector3(0, 2, 3);
+            plane7.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane7);
+            var panel7 = new BABYLON.GUI.StackPanel();
+            panel7.top = "-190px";
+            advancedTexture.addControl(panel7);
+
+            var textblock7 = new BABYLON.GUI.TextBlock();
+            textblock7.height = "170px";
+            textblock7.fontSize = 210;
+            textblock7.text = "Glass";
+            panel7.addControl(textblock7);
+
+            //Gold Plane
+            var plane8 = BABYLON.Mesh.CreatePlane("plane8", 2, scene);
+            plane8.position = new BABYLON.Vector3(3, 2, 3);
+            plane8.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane8);
+            var panel8 = new BABYLON.GUI.StackPanel();
+            panel8.top = "-190px";
+            advancedTexture.addControl(panel8);
+
+            var textblock8 = new BABYLON.GUI.TextBlock();
+            textblock8.height = "170px";
+            textblock8.fontSize = 210;
+            textblock8.text = "Gold";
+            panel8.addControl(textblock8);
+
+            //Gold Plane
+            var plane9 = BABYLON.Mesh.CreatePlane("plane9", 2, scene);
+            plane9.position = new BABYLON.Vector3(3, 2, -3);
+            plane9.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane9);
+            var panel9 = new BABYLON.GUI.StackPanel();
+            panel9.top = "-190px";
+            advancedTexture.addControl(panel9);
+
+            var textblock9 = new BABYLON.GUI.TextBlock();
+            textblock9.height = "170px";
+            textblock9.fontSize = 140;
+            textblock9.text = "Polished Wood";
+            panel9.addControl(textblock9);
+
+            //Homepage Plane
+            var plane10 = BABYLON.Mesh.CreatePlane("plane10", 2, scene);
+            plane10.position = new BABYLON.Vector3(3, -1, 0);
+            plane10.rotation.y = 80;
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(plane10);
+            var panel10 = new BABYLON.GUI.StackPanel();
+            panel10.top = "-190px";
+            advancedTexture.addControl(panel10);
+
+            var textblock10 = new BABYLON.GUI.TextBlock();
+            textblock10.height = "170px";
+            textblock10.fontSize = 140;
+            textblock10.text = "Home";
+            panel10.addControl(textblock10);
+
+            return scene;
+
+        };
+
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            scene.render();
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,785 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>WebGL Presentation</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/sky.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/2.5.0/babylon.core.js"></script>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+
+			<!--Presentation slides -->
+			<div class="slides">
+
+				<!-- Title slide -->
+				<section>
+					<h1>WebGL</h1>
+					<h3>Building Worlds In Your Web Browser</h3>
+					<p>
+						<small>Presented by Vincent Moore</small>
+					</p>
+				</section>
+				<!-- End Title Slide -->
+
+				<!-- Goals -->
+				<section>
+					<section>
+						<h2>Presentation Goals</h2>
+					</section>
+					<section id="fragment">
+						<ul>
+							<li><h3>Introduction to WebGL</h3></li>
+							<li class="fragment"><h3>Hopefully spark your interest in WebGL</h3></li>
+					  </ul>
+					</section>
+				</section>
+				<!-- End Structure -->
+
+				<!-- Structure -->
+				<section>
+					<section>
+						<h2>Presentation Structure</h2>
+					</section>
+					<section id="fragment">
+						<h3>WebGL Overview</h3>
+						<h3 class="fragment">WebGL Frameworks </h3>
+						<h3 class="fragment">Further Study and Reading</h3>
+					</section>
+				</section>
+				<!-- End Structure -->
+
+				<!-- Introduction -->
+				<section>
+					<section>
+						<h2>So Who Am I?</h2>
+					</section>
+					<section>
+						<h3>My Background</h3>
+						<ul>
+							<li class="fragment">BA in journalism from the University of Alabama</li>
+							<li class="fragment">Sports writer for 10 years. Covered the NFL, NBA, Soccer and NASCAR</li>
+							<li class="fragment">Studied International Relations at the University of New South Wales in Sydney, Australia.</li>
+							<li class="fragment">Also a travel writer</li>
+							<li class="fragment">Astronomical artist</li>
+							<li class="fragment">Self-taught in web development. Built first web page in 1996 while a sophomore in college.</li>
+					  </ul>
+					</section>
+					<section>
+						<h3>My Programming Background</h3>
+						<ul>
+							<li class="fragment">HTML, CSS, JavaScript</li>
+							<li class="fragment">PHP</li>
+							<li class="fragment">Python</li>
+							<li class="fragment">Open GL Shading Language (GLSL)</li>
+						</ul>
+					</section>
+					<section>
+						<h3>My Journey to WebGL</h3>
+						<ul>
+							<li class="fragment">Virtual Reality Modeling Language (VRML)</li>
+							<li class="fragment">HTML5 Canvas</li>
+							<li class="fragment">Always been interested in 3D Art, so I learned Blender</li>
+						</ul>
+					</section>
+				</section>
+				<!-- End Introduction -->
+
+				<!-- What is WebGL? -->
+				<section>
+					<section>
+						<h2>What is WebGL?</h2>
+					</section>
+					<section id="fragment">
+						<img src="images/webGL_logo_transparent.png" style="width: 45%; height: auto;"><br/>
+						<small>https://www.khronos.org/webgl/</small>
+						<p>
+							WebGL is an API that enables drawing and displaying 3D graphics and interactive experiences in web browers.
+					  </p>
+						<p class="fragment">WebGL is written with JavaScript and OpenGL ES Shading Language (GLSL)</p>
+						<p class="fragment">Uses the HTML5 <code>< canvas ></code> tag to render apps.</p>
+
+					</section>
+					<section id="fragment">
+						<p>
+							WebGL is of course based on OpenGL, an API for rendering 2D and 3D computer graphics on smartphones, tablets, video games, etc.  OpenGL is coded with C or C++.
+						</p>
+					</section>
+					<section>
+						<p id ="fragment">
+							<img src="images/webglarc.png" style="width: 70%; height: auto;"><br/>
+						</p>
+					</section>
+					<section>
+						<p id ="fragment">
+							<img src="images/relationship.png" style="width: 80%; height: auto;"><br/>
+						</p>
+					</section>
+					<section>
+						<h3>WebGL Rendering Pipeline</h3>
+						<p id ="fragment">
+							<img src="images/webglpipeline.png" style="width: 80%; height: auto;"><br/>
+						</p>
+					</section>
+					<section>
+						<h3>WebGL Advantages</h3>
+						<ul>
+							<li class="fragment">Doesn't need a plugin</li>
+							<li class="fragment">It's written in JavaScript, which web browsers understand</li>
+							<li class="fragment">Shaders are programmable, so you are only limited by your skill and imagination</li>
+						</ul>
+					</section>
+					<section>
+						<h3>WebGL Disadvantages</h3>
+						<ul>
+							<li class="fragment">Some effects such as shadows, reflections or refractions can be difficult to render properly.</li>
+							<li class="fragment">The more complicated the effects, the more expensive rendering gets.</li>
+						</ul>
+					</section>
+					<section>
+						<h3>What WebGL isn't</h3>
+						<ul>
+							<li class="fragment">A game engine</li>
+							<li class="fragment">WebVR</li>
+						</ul>
+					</section>
+				</section>
+				<!-- End What is WebGL? -->
+
+				<!-- So you wanna be a WebGL developer? -->
+				<section>
+					<section>
+						<h2>So you wanna be a WebGL Developer?</h2>
+						<p class="fragment">Some basic concepts</p>
+					</section>
+					<section id="fragment">
+						<h3>3D Coordinate Space</h3>
+						<p><img src="images/3d_planes.png"></p>
+					</section>
+					<section id="fragment">
+						<h3>Meshes, Polygons and Vertices</h3>
+						<p><img src="images/mesh.png"></p>
+					</section>
+					<section id="fragment">
+						<h3>Materials, Textures and Lighting</h3>
+						<p><img src="images/planet_final.png" style="width: 95%; height: auto;"></p>
+					</section>
+					<section id="fragment">
+						<h3>Transforms</h3>
+						<p><img src="images/transforms.png" style="width: 65%; height: auto;"></p>
+					</section>
+					<section id="fragment">
+					<h3>Matrices</h3>
+					<p><img src="images/transmatrix.png" style="width: 65%; height: auto;"></p>
+				</section>
+				<section id="fragment">
+					<h3>Cameras, Viewports and Projections</h3>
+					<p><a href="http://localhost/indyjs/clouds/" target="_blank"><img src="images/camera.GIF" style="width: 65%; height: auto;"></a></p>
+			  </section>
+					<section>
+						<h3>GLSL</h3>
+						<p class="fragment">
+							C-based language used to write graphics shaders.
+						</p>
+						<p class="fragment">
+								Graphics shaders are programs that account for how light in a WebGL scene interacts with objects
+						</p>
+						<p class="fragment">
+								Graphics shaders in WebGL are composed of two parts: vertex shaders and fragment shaders.
+						</p>
+
+					</section>
+					<section>
+						<h3>Vertex Shader</h3>
+						<p id ="fragment">
+							Describes traits (color, position, etc) of a vertex in a WebGL app.
+						</p>
+					</section>
+					<section>
+							<pre><code class="hljs" data-trim contenteditable>
+precision highp float;
+
+// Attributes
+attribute vec3 position;
+attribute vec2 uv;
+
+// Uniforms
+uniform mat4 worldViewProjection;
+
+// Varying
+varying vec2 vUV;
+
+void main(void) {
+	gl_Position = worldViewProjection * vec4(position, 1.0);
+	vUV = uv;
+}
+							</code></pre>
+							<small>Vertex shader example</small>
+					</section>
+					<section>
+						<h3>Fragment (Pixel) Shader</h3>
+						<p id ="fragment">
+							Handles the per-pixel processing of lighting of WebGL objects.
+						</p>
+					</section>
+					<section>
+						<pre><code class="hljs" data-trim contenteditable>
+precision highp float;
+
+varying vec2 vUV;
+
+uniform sampler2D textureSampler;
+
+void main(void) {
+	gl_FragColor = texture2D(textureSampler, vUV);
+}
+						</code></pre>
+						<small>Fragment shader example</small>
+					</section>
+					<section>
+						<p><img src="images/amiga.jpg"></p>
+					</section>
+					<section>
+						<p><a href="http://localhost/indyjs/glsl/" target="_blank"><img src="images/glsl.png"></a></p>
+					</section>
+					<section>
+						<h2>3D Suites</h2>
+					</section>
+					<section>
+						<h2>Blender</h2>
+						<img src="images/blender.png" style="width: 50%; height: auto;"><br/>
+						<small>http://www.blender.org</small>
+						<p>Blender is an open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, even video editing and game creation.</p>
+					</section>
+					<section>
+						<h2>3DS Max</h2>
+						<img src="images/3dsmax.png" style="width: 45%; height: auto;"><br/>
+						<small>https://www.autodesk.com/products/3ds-max/overview</small>
+						<p>Autodesk 3D suite that is really good for architectural visualization. Easier user interface. High pricetag</p>
+					</section>
+					<section>
+						<h2>Maya</h2>
+						<img src="images/maya.png" style="width: 45%; height: auto;"><br/>
+						<small>https://www.autodesk.com/products/maya/overview</small>
+						<p>Also from AutoDesk. A bit harder to learn at first, but better for rigging and animation. Also has a high pricetag.</p>
+					</section>
+					<section>
+						<h2>Cinema 4D</h2>
+						<img src="images/cinema4d.png" style="width: 45%; height: auto;"><br/>
+						<small>https://www.maxon.net/en/products/cinema-4d/overview/</small>
+						<p>3D Creation Suite offering from Maxon.</p>
+					</section>
+					<section>
+						<h3>Physically Based Rendering (PBR)</h3>
+						<p>Physically based rendering (PBR) refers to the concept of using realistic shading/lighting models along with measured surface values to accurately represent real-world materials. PBR is more of a concept than a strict set of rules, and as such, the exact implementations of PBR systems tend to vary.</p>
+					</section>
+					<section>
+						<h3>There are two main points to remember about PBR</h3>
+						<p class="fragment">Energy Conservation - an object can not reflect more light than it receives.</p>
+						<p class="fragment">Everything has Fresnel.</p>
+					</section>
+					<section>
+						<p><a href="http://localhost/indyjs/sphere/" target="_blank"><img src="images/pbr.png" style="width: 85%; height: auto;"></a></p>
+					</section>
+					<section>
+						<h3>Procedural Content Generation</h3>
+						<p class="fragment">In computing, procedural generation is a method of creating data algorithmically as opposed to manually.</p>
+						<p class="fragment">http://learningthreejs.com/blog/2013/08/02/how-to-do-a-procedural-city-in-100lines/</p>
+					</section>
+				</section>
+				<!-- End wanna be a developer -->
+
+				<!-- Buiilding a WebGL app -->
+				<section>
+					<section>
+						<h2>Anatomy of a WebGL app</h2>
+					</section>
+					<section>
+						<pre><code class="hljs" data-trim contenteditable>
+							// Vertex shader program
+							var VSHADER_SOURCE =
+							  'attribute vec4 a_Position;\n' +
+							  'attribute vec4 a_Color;\n' +
+							  'uniform mat4 u_MvpMatrix;\n' +
+							  'varying vec4 v_Color;\n' +
+							  'void main() {\n' +
+							  '  gl_Position = u_MvpMatrix * a_Position;\n' +
+							  '  v_Color = a_Color;\n' +
+							  '}\n';
+
+							// Fragment shader program
+							var FSHADER_SOURCE =
+							  '#ifdef GL_ES\n' +
+							  'precision mediump float;\n' +
+							  '#endif\n' +
+							  'varying vec4 v_Color;\n' +
+							  'void main() {\n' +
+							  '  gl_FragColor = v_Color;\n' +
+							  '}\n';
+
+							function main() {
+							  // Retrieve canvas element
+							  var canvas = document.getElementById('webgl');
+
+							  // Get the rendering context for WebGL
+							  var gl = getWebGLContext(canvas);
+							  if (!gl) {
+							    console.log('Failed to get the rendering context for WebGL');
+							    return;
+							  }
+
+							  // Initialize shaders
+							  if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+							    console.log('Failed to intialize shaders.');
+							    return;
+							  }
+
+							  // Set the vertex coordinates and color
+							  var n = initVertexBuffers(gl);
+							  if (n < 0) {
+							    console.log('Failed to set the vertex information');
+							    return;
+							  }
+
+							  // Set clear color and enable hidden surface removal
+							  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+							  gl.enable(gl.DEPTH_TEST);
+
+							  // Get the storage location of u_MvpMatrix
+							  var u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
+							  if (!u_MvpMatrix) {
+							    console.log('Failed to get the storage location of u_MvpMatrix');
+							    return;
+							  }
+
+							  // Set the eye point and the viewing volume
+							  var mvpMatrix = new Matrix4();
+							  mvpMatrix.setPerspective(30, 1, 1, 100);
+							  mvpMatrix.lookAt(3, 3, 7, 0, 0, 0, 0, 1, 0);
+
+							  // Pass the model view projection matrix to u_MvpMatrix
+							  gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements);
+
+							  // Clear color and depth buffer
+							  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+							  // Draw the cube
+							  gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+							}
+
+							function initVertexBuffers(gl) {
+							  // Create a cube
+							  //    v6----- v5
+							  //   /|      /|
+							  //  v1------v0|
+							  //  | |     | |
+							  //  | |v7---|-|v4
+							  //  |/      |/
+							  //  v2------v3
+							  var verticesColors = new Float32Array([
+							    // Vertex coordinates and color
+							     1.0,  1.0,  1.0,     1.0,  1.0,  1.0,  // v0 White
+							    -1.0,  1.0,  1.0,     1.0,  0.0,  1.0,  // v1 Magenta
+							    -1.0, -1.0,  1.0,     1.0,  0.0,  0.0,  // v2 Red
+							     1.0, -1.0,  1.0,     1.0,  1.0,  0.0,  // v3 Yellow
+							     1.0, -1.0, -1.0,     0.0,  1.0,  0.0,  // v4 Green
+							     1.0,  1.0, -1.0,     0.0,  1.0,  1.0,  // v5 Cyan
+							    -1.0,  1.0, -1.0,     0.0,  0.0,  1.0,  // v6 Blue
+							    -1.0, -1.0, -1.0,     0.0,  0.0,  0.0   // v7 Black
+							  ]);
+
+							  // Indices of the vertices
+							  var indices = new Uint8Array([
+							    0, 1, 2,   0, 2, 3,    // front
+							    0, 3, 4,   0, 4, 5,    // right
+							    0, 5, 6,   0, 6, 1,    // up
+							    1, 6, 7,   1, 7, 2,    // left
+							    7, 4, 3,   7, 3, 2,    // down
+							    4, 7, 6,   4, 6, 5     // back
+							 ]);
+
+							  // Create a buffer object
+							  var vertexColorBuffer = gl.createBuffer();
+							  var indexBuffer = gl.createBuffer();
+							  if (!vertexColorBuffer || !indexBuffer) {
+							    return -1;
+							  }
+
+							  // Write the vertex coordinates and color to the buffer object
+							  gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
+							  gl.bufferData(gl.ARRAY_BUFFER, verticesColors, gl.STATIC_DRAW);
+
+							  var FSIZE = verticesColors.BYTES_PER_ELEMENT;
+							  // Assign the buffer object to a_Position and enable the assignment
+							  var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+							  if(a_Position < 0) {
+							    console.log('Failed to get the storage location of a_Position');
+							    return -1;
+							  }
+							  gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 6, 0);
+							  gl.enableVertexAttribArray(a_Position);
+							  // Assign the buffer object to a_Color and enable the assignment
+							  var a_Color = gl.getAttribLocation(gl.program, 'a_Color');
+							  if(a_Color < 0) {
+							    console.log('Failed to get the storage location of a_Color');
+							    return -1;
+							  }
+							  gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
+							  gl.enableVertexAttribArray(a_Color);
+
+							  // Write the indices to the buffer object
+							  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+							  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+							  return indices.length;
+							}
+
+						</code></pre>
+					</section>
+					<section>
+						<pre><code class="hljs" data-trim contenteditable>
+							<!DOCTYPE html>
+							<html lang="en">
+							  <head>
+							    <meta charset="utf-8" />
+							    <title>Colored Cube</title>
+							  </head>
+
+							  <body onload="main()">
+							    <canvas id="webgl" width="400" height="400">
+							    Please use a browser that supports "canvas"
+							    </canvas>
+
+							    <script src="utilities.js"></script>
+							    <script src="webgl-debug.js"></script>
+							    <script src="cuon-utils.js"></script>
+							    <script src="matrix.js"></script>
+							    <script src="HelloCube.js"></script>
+							  </body>
+							</html>
+						</code></pre>
+					</section>
+					<section>
+						<p><img src="images/hellocube.png" style="width: 60%; height: auto;"></p>
+					</section>
+				</section>
+				<!-- End WebGL app -->
+
+				<!-- WebGL Frameworks -->
+				<section>
+					<section>
+						<h2>WebGL Frameworks</h2>
+					</section>
+					<section>
+						<h3>Three.js</h3>
+						<img src="images/threejs.png" style="width: 50%; height: auto;"><br/>
+						<small>https://threejs.org/</small>
+						<p>Three.js was first released by Ricardo Cabello (Mr. Doob) to GitHub in April 2010. The code was first developed in ActionScript, then in 2009 ported to JavaScript.</p>
+					</section>
+					<section>
+						<h3>Babylon.js</h3>
+						<img src="images/logo-babylonjs-v3.png" style="width: 45%; height: auto;"><br/>
+						<small>https://www.babylonjs.com</small>
+						<p>Babylon.JS is complete framework for building games using HTML5, WebGL, Web Audio and WebVR. Created by David Cathue (Deltakosh), the Principal Program Manager for Windows and Devices group at Microsoft. Named this library for his love of Babylon 5.</p>
+					</section>
+					<section>
+						<h3>What's so cool about these libraries?</h3>
+						<ul>
+							<li class="fragment">Abstracts utility, matrix and set-up files</li>
+							<li class="fragment">Tested across browsers</li>
+							<li class="fragment">Actively maintained</li>
+							<li class="fragment">Great plugins</li>
+							<li class="fragment">Active communities</li>
+							<li class="fragment">You can import files from Blender, 3DS Max, Maya and other 3D programs in a variety of formats.</li>
+
+						</ul>
+						<p class="fragment">But there are differences...</p>
+				</section>
+				<section>
+					<h3>Three.js</h3>
+					<p>Pros</p>
+					<ul>
+						<li class="fragment">Most established 3D library</li>
+						<li class="fragment">Several books written about this library</li>
+						<li class="fragment">Fallback canvas rendering</li>
+						<li class="fragment">Some really cool extensions</li>
+					</ul>
+					<p>Cons</p>
+					<ul>
+						<li class="fragment">Backwards compatibility issues between versions</li>
+						<li class="fragment">Dcoumentation can be confusing</li>
+					</ul>
+			</section>
+			<section>
+				<pre><code class="hljs" data-trim contenteditable>
+
+					<html>
+						<head>
+							<title>Presentation Three.js Example</title>
+							<style>
+								body { margin: 0; }
+								canvas { width: 100%; height: 100% }
+							</style>
+						</head>
+						<body>
+							<script src="js/three.js"></script>
+							<script>
+								var scene = new THREE.Scene();
+								var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+								var renderer = new THREE.WebGLRenderer();
+								renderer.setSize( window.innerWidth, window.innerHeight );
+								document.body.appendChild( renderer.domElement );
+
+								var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+								var material = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
+								var cube = new THREE.Mesh( geometry, material );
+								scene.add( cube );
+
+								camera.position.z = 5;
+
+								var animate = function () {
+									requestAnimationFrame( animate );
+
+									cube.rotation.x += 0.1;
+									cube.rotation.y += 0.1;
+
+									renderer.render(scene, camera);
+								};
+
+								animate();
+							</script>
+						</body>
+					</html>
+
+				</code></pre>
+			</section>
+
+			<section>
+				<h3>Babylon.js</h3>
+				<p>Pros</p>
+				<ul>
+					<li class="fragment">Really helpful, but small community</li>
+					<li class="fragment">A true game engine</li>
+					<li class="fragment">Great documentation</li>
+					<li class="fragment">Optimized for mobile</li>
+				</ul>
+				<p>Cons</p>
+				<ul>
+					<li class="fragment">Young project</li>
+				</ul>
+		</section>
+		<section>
+			<pre><code class="hljs" data-trim contenteditable>
+
+				<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>Presentation Babylon.js example</title>
+   <style>
+      html, body {
+         overflow: hidden;
+         width: 100%;
+         height: 100%;
+         margin: 0;
+         padding: 0;
+      }
+      #renderCanvas {
+         width: 100%;
+         height: 100%;
+         touch-action: none;
+      }
+   </style>
+   <script src="babylon.js"></script>
+   <script src="hand.js"></script>
+   <script src="cannon.js"></script> <!-- optional physics engine -->
+</head>
+<body>
+   <canvas id="renderCanvas"></canvas>
+   <script type="text/javascript">
+      // Get the canvas element from our HTML below
+      var canvas = document.querySelector("#renderCanvas");
+      // Load the BABYLON 3D engine
+      var engine = new BABYLON.Engine(canvas, true);
+      // -------------------------------------------------------------
+      // Here begins a function that we will 'call' just after it's built
+      var createScene = function () {
+         // Now create a basic Babylon Scene object
+         var scene = new BABYLON.Scene(engine);
+         // Change the scene background color to green.
+         scene.clearColor = new BABYLON.Color3(0, 1, 0);
+         // This creates and positions a free camera
+         var camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+         // This targets the camera to scene origin
+         camera.setTarget(BABYLON.Vector3.Zero());
+         // This attaches the camera to the canvas
+         camera.attachControl(canvas, false);
+         // This creates a light, aiming 0,1,0 - to the sky.
+         var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+         // Dim the light a small amount
+         light.intensity = .5;
+         // Let's try our built-in 'sphere' shape. Params: name, subdivisions, size, scene
+         var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 2, scene);
+         // Move the sphere upward 1/2 its height
+         sphere.position.y = 1;
+         // Let's try our built-in 'ground' shape. Params: name, width, depth, subdivisions, scene
+         var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+         // Leave this function
+         return scene;
+      }; // End of createScene function
+      // -------------------------------------------------------------
+      // Now, call the createScene function that you just finished creating
+      var scene = createScene();
+      // Register a render loop to repeatedly render the scene
+      engine.runRenderLoop(function () {
+         scene.render();
+      });
+      // Watch for browser/canvas resize events
+      window.addEventListener("resize", function () {
+         engine.resize();
+      });
+   </script>
+</body>
+</html>
+
+
+			</code></pre>
+		</section>
+		<section>
+			<h2>Other WebGL Tools</h2>
+		</section>
+		<section>
+			<h3>OSG.js</h3>
+			<small>http://osgjs.org/</small>
+			<p>OSGJS is a WebGL framework based on OpenSceneGraph concepts.</p>
+		</section>
+		<section>
+			<h3>Game engines</h3>
+		</section>
+		<section>
+			<h2>Unity</h2>
+			<p><img src="images/unity3d-logo.png" style="width: 35%; height: auto;"><br />
+			<small>http://www.unity3d.com</small><br />Most popular game engine. Can create a build in WebGL.</p>
+		</section>
+		<section>
+			<h3>Unreal Engine</h3>
+			<p><img src="images/unreal.png" style="width: 35%; height: auto;"><br />
+			<small>http://www.unity3d.com</small><br />Produces beautiful graphics. Can create a build in WebGL.</p>
+		</section>
+		<section>
+			<h3>PlayCanvas</h3>
+			<p><img src="images/playcanvas.png" style="width: 35%; height: auto;"><br />
+			<small>https://playcanvas.com/</small><br />Game engine written in JavaScript. Uses PBR shaders.</p>
+		</section>
+		<section>
+		<h3>Additional tools</h3>
+		</section>
+		<section>
+			<h3>Blend4Web</h3>
+			<p><img src="images/blend4weblogo.png" style="width: 35%; height: auto;"><br />
+			<small>https://www.blend4web.com/en/</small><br />Blend4Web is an open source framework for WebGL. A Blender add-on.</p>
+		</section>
+		<section>
+			<h3>Clara.io</h3>
+			<p><img src="images/claraio.png" style="width: 35%; height: auto;"><br />
+			<small>https://clara.io/</small><br />Online Modeler based on JavaScript and WebGL. Based on Three.js technology.</p>
+		</section>
+		<section>
+			<h3>SculptGL</h3>
+			<p><small>https://stephaneginier.com/sculptgl/</small><br />Online WebGL sculpting tool.</p>
+		</section>
+	</section>
+			<!-- End WebGL Frameworks -->
+
+			<!-- WebGL in practice -->
+				<section>
+					<h2>WebGL in Practice</h2>
+					<p>WebGL has several practical uses including:</p>
+					<section>
+					<ul>
+						<li class="fragment">HTML5 Gaming</li>
+						<li class="fragment">Architectural Visualization</li>
+						<li class="fragment">Educational visualization</li>
+						<li class="fragment">Medical visualization</li>
+						<li class="fragment">Products</li>
+					</ul>
+					</section>
+				</section>
+
+			<!--end practice -->
+
+			<!-- Resources -->
+			<section>
+				<section>
+					<h2>Resources</h2>
+				</section>
+				<section>
+					<h3>Websites</h3>
+						<p>WebGL Fundamentals - https://webglfundamentals.org/</p>
+						<p>WebGL2 Fundamentals - https://webgl2fundamentals.org/</p>
+						<p>Mozilla Developer Network - https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API</p>
+						<p>Altered Qualia - http://alteredqualia.com/</p>
+					</section>
+					<section>
+						<h3>Books</h3>
+							<small>WebGL Programming Guide: Interactive 3D Graphics Programming with WebGL by Kouichi Matsuda and Rodger Lea</small><br /><br />
+							<small>Programming 3D Applications with HTML5 and WebGL: 3D Animation and Visualization for Web Pages by Tony Parisi</small><br /><br />
+							<small>WebGL Gems by Greg Sidelnikov</small>
+							<small>WebGL Insights by Patrick Cozzi</small>
+							<small>Learning Three.js: The JavaScript 3D Library for WebGL - Second Edition by Jos Dirksen</small>
+							<small>Learning Babylon.js by Julian Chenard</small>
+							<small>Babylon.JS Essentials by Julien Moreau-Mathis</small>
+							<small>Graphics Shaders: Theory and Practice by Mike Bailey and Steven Cunningham</small>
+						</section>
+						<section>
+							<h3>Vincent Moore</h3>
+							<p>http://cosmiq.cloud</p>
+							<p>cosmiqwarrior@gmail.com</p>
+							<h2>Thank You!</h2>
+
+							</section>
+			</section>
+
+			<!--end Resources -->
+
+			</div>
+			<!-- end presentation slides -->
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
