@@ -1,7 +1,7 @@
-# ![WebGL2 app](https://github.com/nomadicvince/indyjs/blob/master/indyjs.png)
+# ![WebGL Presentation](https://github.com/nomadicvince/indyjs/blob/master/indyjs.png)
 
 # WebGL: Building Worlds In Your Web Browser
-WebGL Presentation for the Indy JavaScript Society
+WebGL presentation for the Indy JavaScript Society. This presentation, built with Reveal.js, will give an overview of the basics of WebGL and some libraries that make it easier to build interactive 3D applications.
 
 ## Built with 
 
